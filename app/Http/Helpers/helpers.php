@@ -49,6 +49,17 @@ function contact()
     return $general;
 }
 
+function getReff($length = 5)
+{
+    $characters = '0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return 'GCR'.$randomString;
+}
+
 function getTrx($length = 12)
 {
     $characters = 'ABCDEFGHJKMNOPQRSTUVWXYZ123456789';

@@ -260,7 +260,7 @@
                                             <div class="col-lg-8">
                                                 <input class="form-control" type="text" name="referral"
                                                     id="referral" minlength="4" maxlength="25"
-                                                    placeholder="Kode Referral (Boleh di kosongkan)" value=""
+                                                    placeholder="Kode Referral (Boleh di kosongkan)" value="{{ $refferal }}"
                                                     autocomplete="off">
                                                 <span id="referral-error"></span>
                                             </div>
@@ -607,7 +607,7 @@
                                             <div class="col-lg-8">
                                                 <input class="form-control" type="text" name="referral"
                                                     id="referral" minlength="4" maxlength="25"
-                                                    placeholder="Kode Referral (Boleh di kosongkan)" value=""
+                                                    placeholder="Kode Referral (Boleh di kosongkan)" value="{{ $refferal }}"
                                                     autocomplete="off">
                                                 <span id="referral-error"></span>
                                             </div>

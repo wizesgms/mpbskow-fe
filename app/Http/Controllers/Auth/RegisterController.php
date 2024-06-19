@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use App\Models\Saldo;
+use App\Models\Refferal;
 use App\Models\Bank;
 use App\Http\Controllers\Api\SeamlesWsController;
 
@@ -68,8 +69,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $user = User::create([
-            'extplayer' => $data['username'].random_string(5),
-            'username' => $data['username'],
+            'extplayer' => strtolower($data['username'].random_string(5)),
+            'username' => strtolower($data['username']),
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'nama_lengkap' => $data['accName'],
@@ -88,6 +89,12 @@ class RegisterController extends Controller
         $saldo->transfer = 0;
         $saldo->payout = 0;
         $saldo->save();
+
+        $reff = new Refferal();
+        $reff->user_id = $user->id;
+        $reff->reff_code = getReff();
+        $reff->upline = $data['referral'];
+        $reff->save();
 
         $bank = new Bank();
         $bank->nama_bank = $data['bank'];
