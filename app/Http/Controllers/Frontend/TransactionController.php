@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         $bank = DB::table('tb_bank')->where('level', 'admin')->get();
         $bu = DB::table('tb_bank')->where('id_user', auth()->user()->id)->first();
-        $bonus = DB::table('tb_bonus')->where('status', 'active')->get();
+        $bonus = DB::table('tb_bonus')->where('status', 'active')->where('type', 2)->get();
 
         $hdepo = DB::table('tb_transaksi')->where('id_user', auth()->user()->id)->where('transaksi', 'Top Up')->orderBy('id', 'desc')->limit(7)->get();
         $hwd = DB::table('tb_transaksi')->where('id_user', auth()->user()->id)->where('transaksi', 'Withdraw')->orderBy('id', 'desc')->limit(7)->get();
@@ -48,6 +48,7 @@ class TransactionController extends Controller
 
                 $trans->gambar = $response['Images'];
             }
+            $trans->trx_id = getTrx();
             $trans->transaksi = 'Top Up';
             $trans->total = $request->nominal;
             $trans->dari_bank = $request->dari_bank;
@@ -78,6 +79,7 @@ class TransactionController extends Controller
             return redirect()->back()->with('error', 'Saldo Anda Tidak Mencukupi.');
         } else {
             $trans = new Transaction();
+            $trans->trx_id = getTrx();
             $trans->transaksi = 'Withdraw';
             $trans->total = $request->jumlah;
             $trans->dari_bank = $request->bank;
