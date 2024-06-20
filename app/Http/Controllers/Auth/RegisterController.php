@@ -90,11 +90,11 @@ class RegisterController extends Controller
         $saldo->payout = 0;
         $saldo->save();
 
-        $reff = new Refferal();
-        $reff->user_id = $user->id;
-        $reff->reff_code = getReff();
-        $reff->upline = $data['referral'];
-        $reff->save();
+        $reffs = new Refferal();
+        $reffs->user_id = $user->id;
+        $reffs->reff_code = getReff();
+        $reffs->upline = $data['referral'];
+        $reffs->save();
 
         $bank = new Bank();
         $bank->nama_bank = $data['bank'];
