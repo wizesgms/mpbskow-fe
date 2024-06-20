@@ -26,6 +26,8 @@ Route::namespace('Frontend')->group(function () {
 
     //route checkuser
     Route::post('userCheck', 'HomeController@check')->name('user.check');
+    Route::post('userphone', 'HomeController@phone')->name('user.phone');
+    Route::post('usernorek', 'HomeController@norek')->name('user.norek');
 
     Route::middleware(['auth'])->group(function () {
         Route::get('profile', 'UserController@profile')->name('profile');

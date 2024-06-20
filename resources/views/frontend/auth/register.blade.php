@@ -220,7 +220,9 @@
                                                         placeholder="Nomor Ponsel*" data-parsley-type="number"
                                                         data-parsley-trigger="keyup" autocomplete="off">
                                                 </div>
-                                                <span id="phone-error"></span>
+                                                <span id="phone-error" style="display: none;"><span
+                                                    class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -248,7 +250,9 @@
                                                     name="accNumber" id="accNumber" minlength="" maxlength="99"
                                                     placeholder="Nomor Sesuai Rekening" data-parsley-type="number"
                                                     data-parsley-trigger="keyup" autocomplete="off">
-                                                <span id="accNumber-error"></span>
+                                                    <span id="accNumber-error" style="display: none;"><span
+                                                        class="spinner-border spinner-border-sm" role="status"
+                                                        aria-hidden="true"></span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -567,7 +571,9 @@
                                                         placeholder="Nomor Ponsel*" data-parsley-type="number"
                                                         data-parsley-trigger="keyup" autocomplete="off">
                                                 </div>
-                                                <span id="phone-error"></span>
+                                                <span id="phone-error" style="display: none;"><span
+                                                    class="spinner-border spinner-border-sm" role="status"
+                                                    aria-hidden="true"></span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -595,7 +601,9 @@
                                                     name="accNumber" id="accNumber" minlength="" maxlength="99"
                                                     placeholder="Nomor Sesuai Rekening" data-parsley-type="number"
                                                     data-parsley-trigger="keyup" autocomplete="off">
-                                                <span id="accNumber-error"></span>
+                                                    <span id="accNumber-error" style="display: none;"><span
+                                                        class="spinner-border spinner-border-sm" role="status"
+                                                        aria-hidden="true"></span></span>
                                             </div>
                                         </div>
                                     </div>
@@ -723,6 +731,85 @@
         }
 
         var timer;
+
+        $('#accNumber').on('focusout', function() {
+            $("#accNumber-error").html(
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+            let norek = $('#accNumber').val()
+            if (norek.length > 6) {
+                clearTimeout(timer);
+                timer = setTimeout(userNumberCheck, 2000);
+            } else {
+                $("#accNumber-error").hide()
+            }
+        });
+
+        function userNumberCheck() {
+            let norek = $('#accNumber').val()
+            if (norek.length < 6) {
+                $("#accNumber-error").hide();
+                return false;
+            }
+            let url = "{{ route('user.norek') }}"
+            $("#accNumber-error").show();
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    norek: norek
+                },
+                success: function(data) {
+                    if (data.success === false) {
+                        $("#accNumber").removeClass('is-invalid').addClass('is-valid')
+                        $("#accNumber-error").text(data.error);
+                    } else {
+                        $("#accNumber").removeClass('is-valid').addClass('is-invalid')
+                        $("#accNumber-error").text(data.error);
+                    }
+                },
+            });
+        };
+
+        $('#phone').on('focusout', function() {
+            $("#phone-error").html(
+                `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);
+            let phone = $('#phone').val()
+            if (phone.length > 6) {
+                clearTimeout(timer);
+                timer = setTimeout(userphoneCheck, 2000);
+            } else {
+                $("#phone-error").hide()
+            }
+        });
+
+        function userphoneCheck() {
+            let phone = $('#phone').val()
+            if (phone.length < 6) {
+                $("#phone-error").hide();
+                return false;
+            }
+            let url = "{{ route('user.phone') }}"
+            $("#phone-error").show();
+            $.ajax({
+                type: 'post',
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    phone: phone
+                },
+                success: function(data) {
+                    if (data.success === false) {
+                        $("#phone").removeClass('is-invalid').addClass('is-valid')
+                        $("#phone-error").text(data.error);
+                    } else {
+                        $("#phone").removeClass('is-valid').addClass('is-invalid')
+                        $("#phone-error").text(data.error);
+                    }
+                },
+            });
+        };
+
         $('#username_register').on('focusout', function() {
             $("#username_register-error").html(
                 `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`);

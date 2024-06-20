@@ -39,6 +39,38 @@ class HomeController extends Controller
         }
     }
 
+    public function phone(Request $request)
+    {
+        $user = DB::table('users')->where('no_hp', $request->phone)->first();
+        if (!$user) {
+            return response()->json([
+                'error' => 'Nomor Telepon Bisa digunakan.',
+                'success' => false
+            ],200);
+        } elseif (!empty($user)) {
+            return response()->json([
+                'error' => 'Nomor Telepon Sudah Terdaftar',
+                'success' => true
+            ],200);
+        }
+    }
+
+    public function norek(Request $request)
+    {
+        $bank = DB::table('tb_bank')->where('nomor_rekening', $request->norek)->first();
+        if (!$bank) {
+            return response()->json([
+                'error' => 'Nomor Rekening Bisa digunakan.',
+                'success' => false
+            ],200);
+        } elseif (!empty($bank)) {
+            return response()->json([
+                'error' => 'Nomor Rekening Sudah Terdaftar',
+                'success' => true
+            ],200);
+        }
+    }
+
     public function promotion()
     {
         $promotion = DB::table('tb_bonus')->get();
