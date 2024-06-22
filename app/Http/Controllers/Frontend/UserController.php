@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function profile()
     {
-        $bank = DB::table('tb_bank')->where('id_user', auth()->user()->id)->first();
+        $bank = DB::table('tb_bank')->where('id_user', auth()->user()->id)->where('level' ,'user')->first();
         $reff = DB::table('tb_refferal')->where('user_id', auth()->user()->id)->first();
         return view('frontend.profile',compact('reff','bank'));
     }
