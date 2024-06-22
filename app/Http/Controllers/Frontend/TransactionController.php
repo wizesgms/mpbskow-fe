@@ -48,12 +48,18 @@ class TransactionController extends Controller
 
                 $trans->gambar = $response['Images'];
             }
+            $bonus = DB::table('tb_bonus')->where('id', $request->bonus)->first();
             $trans->trx_id = getTrx();
             $trans->transaksi = 'Top Up';
             $trans->total = $request->nominal;
             $trans->dari_bank = $request->dari_bank;
             $trans->metode = $metode->nama_bank;
             $trans->bonus = $request->bonus;
+            if ($request->bonus == 'tanpabonus') {
+                $trans->bonus_amount = 0;
+            } elseif ($request->bonus != 'tanpabonus') {
+                $trans->bonus_amount = $bonus->bonus;
+            }
             $trans->keterangan = $request->keterangan;
             $trans->status = 'Pending';
             $trans->id_user = auth()->user()->id;
