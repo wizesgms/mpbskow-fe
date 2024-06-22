@@ -73,7 +73,7 @@ class HomeController extends Controller
 
     public function promotion()
     {
-        $promotion = DB::table('tb_bonus')->get();
+        $promotion = DB::table('tb_bonus')->where('status', 'active')->where('type', 2)->get();
         return view('frontend.promotion.promotion',compact('promotion'));
     }
 
